@@ -1,0 +1,19 @@
+print("test")
+--[[
+    multy line comment
+
+]]
+-- single line comment
+
+local name = 5  -- local variable
+_G.globalname = 10; --global variable
+
+local multyLineString = [[dadsadadadsa
+asdsadad]] --its literatl so, be careful for new lines and tabs
+
+--# in lua returns the length
+print("\vTestiram")
+
+math.randomseed(os.time()) --more random values
+
+dog:feed() --this is how methods are used within classes when you need to reference another property inside the object

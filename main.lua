@@ -1,47 +1,51 @@
 _G.love = require("love")
+require 'class'  --importing class library
+require 'Player' --importing player class
+require 'Ball'
 _G.windowWidth = 1280
 _G.windowHeight = 720
-_G.Player1Y = 90
-_G.Player2Y = 540
 _G.speed = 250
 function love.load() --lodaing data when game boots up
-    love.window.setMode(windowWidth,windowHeight,{fullscreen = false,vsync=true})
+    math.randomseed(os.time())
+    love.window.setMode(windowWidth, windowHeight, { fullscreen = false, vsync = true })
+    _G.player1 = Player(50, 90, 30, 110, true, speed)
+    _G.player2 = Player(1200, 540, 30, 110, false, speed)
+    _G.ball = Ball(windowWidth / 2, windowHeight / 2, 30, 30)
+
+    _G.gameState = "start";
 end
 
 function love.update(dt) --runs every 60 frames
     if love.keyboard.isDown("escape") then
-        love.event.quit()        
-    end
-    if love.keyboard.isDown("s") then
-        
-        if Player1Y >= windowHeight-160 then
-            Player1Y = windowHeight-160
+        love.event.quit()
+    elseif love.keyboard.isDown("kpenter") then
+        if gameState == 'start' then
+            gameState = 'play'
+        else
+            gameState = 'start'
+
+            -- ball's new reset method
+            ball:reset()
         end
-        Player1Y = Player1Y+speed *dt*1.03
     end
-    if love.keyboard.isDown("w") then
-        if Player1Y <= 90 then
-            Player1Y = 90
-        end
-        Player1Y = Player1Y -speed *dt *1.03
+    if gameState == 'play' then
+        ball:update(dt)
     end
-    if love.keyboard.isDown("down") then
-        
-        if Player2Y >= windowHeight-160 then
-            Player2Y = windowHeight-160
-        end
-        Player2Y = Player2Y+speed *dt*1.03
-    end
-    if love.keyboard.isDown("up") then
-        if Player2Y <= 90 then
-            Player2Y = 90
-        end
-        Player2Y = Player2Y -speed *dt *1.03
-    end
+
+    player1:update(dt)
+    player2:update(dt)
 end
 
-function love.draw() --draws to the screen 
+function love.draw() --draws to the screen
     --love.graphics.print("hello World")
-    love.graphics.rectangle("fill",50,Player1Y,30,110)
-    love.graphics.rectangle("fill",1200,Player2Y,30,110)
+    player1:render()
+    player2:render()
+    ball:render()
+    displayFPS()
+end
+
+function displayFPS()
+    -- simple FPS display across all states
+    love.graphics.setColor(0, 255 / 255, 0, 255 / 255)
+    love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 10, 10)
 end

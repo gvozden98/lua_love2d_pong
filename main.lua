@@ -4,21 +4,40 @@ require 'Player' --importing player class
 require 'Ball'
 _G.windowWidth = 1280
 _G.windowHeight = 720
-_G.speed = 250
+_G.speed = 450
 function love.load() --lodaing data when game boots up
     math.randomseed(os.time())
     love.window.setMode(windowWidth, windowHeight, { fullscreen = false, vsync = true })
     _G.player1 = Player(50, 90, 30, 110, true, speed)
     _G.player2 = Player(1200, 540, 30, 110, false, speed)
-    _G.ball = Ball(windowWidth / 2, windowHeight / 2, 30, 30)
+    _G.ball = Ball(windowWidth / 2, windowHeight / 2, 30, 30, speed)
 
     _G.gameState = "start";
 end
 
 function love.update(dt) --runs every 60 frames
-    if love.keyboard.isDown("escape") then
+    if gameState == 'play' then
+        ball:update(dt)
+    end
+    player1:update(dt)
+    player2:update(dt)
+end
+
+function love.draw() --draws to the screen
+    player1:render()
+    player2:render()
+    ball:render()
+    displayFPS()
+end
+
+function love.keypressed(key)
+    -- keys can be accessed by string name
+    if key == 'escape' then
+        -- function LÖVE gives us to terminate application
         love.event.quit()
-    elseif love.keyboard.isDown("kpenter") then
+        -- if we press enter during the start state of the game, we'll go into play mode
+        -- during play mode, the ball will move in a random direction
+    elseif key == 'space' then
         if gameState == 'start' then
             gameState = 'play'
         else
@@ -28,20 +47,6 @@ function love.update(dt) --runs every 60 frames
             ball:reset()
         end
     end
-    if gameState == 'play' then
-        ball:update(dt)
-    end
-
-    player1:update(dt)
-    player2:update(dt)
-end
-
-function love.draw() --draws to the screen
-    --love.graphics.print("hello World")
-    player1:render()
-    player2:render()
-    ball:render()
-    displayFPS()
 end
 
 function displayFPS()

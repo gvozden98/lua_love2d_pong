@@ -8,8 +8,9 @@ _G.speed = 450
 function love.load() --lodaing data when game boots up
     math.randomseed(os.time())
     love.window.setMode(windowWidth, windowHeight, { fullscreen = false, vsync = true })
-    _G.player1 = Player(50, 90, 30, 110, true, speed)
-    _G.player2 = Player(1200, 540, 30, 110, false, speed)
+
+    _G.player1 = Player(50, 15, 30, 110, true, speed)
+    _G.player2 = Player(1200, 595, 30, 110, false, speed)
     _G.ball = Ball(windowWidth / 2, windowHeight / 2, 30, 30, speed)
 
     _G.gameState = "start";
@@ -18,6 +19,33 @@ end
 function love.update(dt) --runs every 60 frames
     if gameState == 'play' then
         ball:update(dt)
+    end
+    if ball:collides(player1) then
+        ball.dx = -ball.dx * 1.03
+        ball.x = player1.x + 30
+        if ball.dy < 0 then
+            ball.dy = -math.random(-1, 1)
+        else
+            ball.dy = math.random(-1, 1)
+        end
+    end
+    if ball:collides(player2) then
+        ball.dx = -ball.dx * 1.03
+        ball.x = player2.x - 30
+        if ball.dy < 0 then
+            ball.dy = -math.random(-1, 1)
+        else
+            ball.dy = math.random(-1, 1)
+        end
+    end
+    -- Upper and lower screen edges handling the ball
+    if ball.y <= 0 then
+        ball.y = 0
+        ball.dy = -ball.dy
+    end
+    if ball.y >= windowHeight - 30 then
+        ball.y = windowHeight - 30
+        ball.dy = -ball.dy
     end
     player1:update(dt)
     player2:update(dt)

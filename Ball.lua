@@ -5,14 +5,14 @@ function Ball:init(x, y, width, height, speed)
     self.y = y
     self.width = width
     self.height = height
-    self.dy = math.random(2) == 1 and -100 or 100
-    self.dx = math.random(-50, 50)
+    self.dy = math.random(-1, 1)
+    self.dx = math.random(-1, 1)
     self.speed = speed
 end
 
 function Ball:update(dt)
-    self.x = self.x + self.dx * dt * 5
-    self.y = self.y + self.dy * dt * 5
+    self.x = self.x + self.dx * dt * 200
+    self.y = self.y + self.dy * dt * 200
 end
 
 function Ball:render()
@@ -22,15 +22,15 @@ end
 function Ball:reset()
     self.x = windowWidth / 2
     self.y = windowHeight / 2
-    self.dy = math.random(2) == 1 and -100 or 100
-    self.dx = math.random(-50, 50)
+    self.dy = math.random(-1, 1)
+    self.dx = math.random(-1, 1)
 end
 
 function Ball:collides(player)
-    if self.x > player.x + player.width or player.x > self.x + self.width then
+    if self.x > player.x + player.width or player.x > self.x + 3 then
         return false
     end
-    if self.y > player.y + player.height or player.y > self.y + self.height then
+    if self.y > player.y + player.height or player.y > self.y + 3 then
         return false
     end
     return true

@@ -12,27 +12,27 @@ end
 function Player:update(dt)
     if self.leftPlayer == true then
         if love.keyboard.isDown("s") then
-            if self.y >= windowHeight - 160 then
-                self.y = windowHeight - 160
+            if self.y >= windowHeight - 125 then
+                self.y = windowHeight - 125
             end
             self.y = self.y + self.speed * dt * 1.03
         end
         if love.keyboard.isDown("w") then
-            if self.y <= 90 then
-                self.y = 90
+            if self.y <= 15 then
+                self.y = 15
             end
             self.y = self.y - self.speed * dt * 1.03
         end
     elseif self.leftPlayer == false then
         if love.keyboard.isDown("down") then
-            if self.y >= windowHeight - 160 then
-                self.y = windowHeight - 160
+            if self.y >= windowHeight - 125 then
+                self.y = windowHeight - 125
             end
             self.y = self.y + self.speed * dt * 1.03
         end
         if love.keyboard.isDown("up") then
-            if self.y <= 90 then
-                self.y = 90
+            if self.y <= 15 then
+                self.y = 15
             end
             self.y = self.y - self.speed * dt * 1.03
         end

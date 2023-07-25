@@ -27,10 +27,10 @@ function Ball:reset()
 end
 
 function Ball:collides(player)
-    if self.x > player.x + player.width or player.x > self.x + 3 then
+    if self.x > player.x + player.width or player.x > self.x + 15 then
         return false
     end
-    if self.y > player.y + player.height or player.y > self.y + 3 then
+    if self.y > player.y + player.height or player.y > self.y + 15 then
         return false
     end
     return true
